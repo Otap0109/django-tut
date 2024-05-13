@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "./artemgeiblog",
+        "./artemgeiblog/artemgei",
+        "./artemgeiblog/artemgei"
+    ]
+}

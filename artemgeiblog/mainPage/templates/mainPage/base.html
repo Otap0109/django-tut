@@ -1,0 +1,43 @@
+{% load static %}
+{% load mainPage_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'mainPage/css/styles.css' %}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    {% block mainmenu %}
+    <nav>
+      <a href="{% url 'aboutus' %}">About us link</a>
+      <a href="{% url 'AddArticle' %}">Add new article link</a>
+    </nav>
+    <div class="side-menu">
+      {% get_cats as categories %}
+      <ul class="categories">
+        {% if cat_selected == 0 %}
+        <li>all categories</li>
+        {% else %}
+        <li><a href="{% url 'home' %}">home</a></li>
+        {% endif %} 
+        
+        {% for c in categories %} 
+        {% if c.pk == cat_selected %}
+          <li>{{ c.name }}</li>
+        {% else %}
+          <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+        {% endif %} 
+      {% endfor %}
+      </ul>
+    </div>
+
+    {% endblock mainmenu %}
+    <div class="wrapper">{% block content %} {% endblock %}</div>
+  </body>
+</html>
