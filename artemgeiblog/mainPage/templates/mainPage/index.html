@@ -1,11 +1,11 @@
-{% extends 'mainPage/base.html' %} 
+{% extends 'mainPage/base.html' %}
+{% load mainPage_tags %}
 
 {% block content %}
-
 <ul>
+  
 
-  {% for p in posts %}
-
+{% for p in posts %}
   <li>
     <h1>{{ p.title }} </h1>
     <p>{{p.description}}</p>
@@ -15,8 +15,6 @@
     {% endif %}
     <a href="{{ p.get_absolute_url }}"> Read more</a>
   </li>
-  
-
   {% endfor %}
   
 </ul>
