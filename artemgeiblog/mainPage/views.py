@@ -1,3 +1,6 @@
+from django.db.models.query import QuerySet
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 import time
 from django.http import Http404, HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
@@ -8,56 +11,93 @@ from mainPage.models import *
 
 # Create your views here.
 
-def Home(request):
-    posts = Article.objects.all()
-    cats = Category.objects.all()
-    context ={
-        'posts' : posts,
-        'cats' : cats,
-        'title': 'Articles',
-        'cat_selected' : 0,
-        }
-    return render(request, 'mainPage/index.html', context=context)
+class MainHome(ListView):
+    model = Article
+    template_name = 'mainPage/index.html'
+    context_object_name = 'posts'
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title']= 'Home page'
+        context['cat_selected'] = 0
+        return context
+    def get_queryset(self):
+        return Article.objects.filter(published=True)
+
+
+
+
+
+
+class ShowPost(DetailView):
+    model = Article
+    template_name = 'mainPage/post.html'
+    slug_url_kwarg = 'post_slug'
+    context_object_name = 'post'    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title']= context['post']
+        return context
+
+
+
+
+
+
+class ShowCategory(ListView):
+    model = Article
+    template_name = 'mainPage/index.html'
+    context_object_name = 'posts'
+    allow_empty = False
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title']= 'Category ' + str(context['posts'][0].cat)
+        context['cat_selected'] = context['posts'][0].cat_id
+        return context
+    def get_queryset(self):
+        return Article.objects.filter(cat__slug=self.kwargs['cat_slug'], published=True)
+
+
+
+
+
+
+
 def Aboutus(request):
     return render(request, 'mainPage/aboutus.html', {'title': 'About us'})
 
-def AddArticle(request):
-    if request.method == 'POST':
-        form = AddArticleForm(request.POST)
-        if form.is_valid():
-            try:
-                Article.objects.create(**form.cleaned_data)
-                return redirect('home')
-            except:
-                form.add_error(None, 'Can not add this post')
-    else:       
-        form = AddArticleForm()
-    return render(request, 'mainPage/addArticle.html',{'title': 'Add your article', 'form': form})
 
 
-def show_post(request, post_slug):
-    post = get_object_or_404(Article, slug=post_slug)
-    context ={
-        'post' : post,
-        'title': post.title,
-        'cat' : post.cat,
-        }
+
+
+class AddArticle(CreateView):
+    form_class = AddArticleForm
+    template_name = 'mainPage/addArticle.html'
+    success_url = reverse_lazy('home')
     
-    return render(request, 'mainPage/post.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title']= 'Add your article' 
+        return context
 
-def show_category(request, cat_slug):
-    posts = Article.objects.filter(slug=cat_slug)
-    cats = Category.objects.all()
 
 
-    context={
-        'posts' : posts,
-        'cats' : cats,
-        'title': 'Articles',
-        'cat_selected' : cat_slug,
-    }
 
-    return render(request, 'mainPage/index.html', context= context)
+# def AddArticle(request):
+#     if request.method == 'POST':
+#         form = AddArticleForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('home')
+           
+#     else:       
+#         form = AddArticleForm()
+#     return render(request, 'mainPage/addArticle.html',{'title': 'Add your article', 'form': form})
+
+
+
+
 
 
 def PageNotFound(request, exception):

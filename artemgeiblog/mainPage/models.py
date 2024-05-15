@@ -10,7 +10,7 @@ class Article(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT)
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name= 'Category')
     
     def __str__ (self):
         return self.title

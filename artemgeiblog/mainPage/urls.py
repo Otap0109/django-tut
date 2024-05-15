@@ -2,13 +2,13 @@
 from django.urls import path
 
 from mainPage import admin
-from mainPage.views import Home, Aboutus, AddArticle, show_category, show_post
+from mainPage.views import *
 
 
 urlpatterns = [
-    path('', Home, name= 'home'),
+    path('', MainHome.as_view(), name= 'home'),
     path('aboutus/', Aboutus, name= 'aboutus'),
-    path('add/', AddArticle, name= 'addArticle'),
-    path('post/<slug:post_slug>/', show_post, name ='post'),
-    path('category/<slug:cat_slug>/', show_category, name ='category'),
+    path('addArticle/', AddArticle.as_view(), name= 'addArticle'),
+    path('post/<slug:post_slug>/', ShowPost.as_view(), name ='post'),
+    path('category/<slug:cat_slug>/', ShowCategory.as_view(), name ='category'),
 ]
