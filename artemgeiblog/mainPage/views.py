@@ -1,15 +1,40 @@
 from django.db.models.query import QuerySet
+from django.forms import model_to_dict
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 import time
 from django.http import Http404, HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
+import rest_framework
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import ArticleSerializer
 
 from mainPage.forms import *
 from mainPage.models import *
-
-
 # Create your views here.
+
+class BlogApiView(APIView):
+    def get(self, request):
+        lst = Article.objects.all()
+        return Response({'posts': ArticleSerializer(lst, many=True).data})
+    def post(self, request):
+        serializer = ArticleSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        post_new = Article.objects.create(
+            title =request.data['title'],
+            description =request.data['description'],
+            cat =request.data['cat']
+        )
+        return Response({'post':ArticleSerializer(post_new).data})
+
+
+# class BlogApiView(generics.ListAPIView):
+#     queryset = Article.objects.all()
+#     serializer_class = ArticleSerializer
+
+
+
 
 class MainHome(ListView):
     model = Article
@@ -23,9 +48,6 @@ class MainHome(ListView):
         return context
     def get_queryset(self):
         return Article.objects.filter(published=True)
-
-
-
 
 
 
