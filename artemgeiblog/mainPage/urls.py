@@ -11,5 +11,7 @@ urlpatterns = [
     path('addArticle/', AddArticle.as_view(), name= 'addArticle'),
     path('post/<slug:post_slug>/', ShowPost.as_view(), name ='post'),
     path('category/<slug:cat_slug>/', ShowCategory.as_view(), name ='category'),
-    path('api/v1/articlelist/', BlogApiView.as_view())
+    path('api/v1/articlelist/', BlogAPIList.as_view()),
+    path('api/v1/articlelist/<int:pk>/', BlogAPIUpdate.as_view()),
+    path('api/v1/articledetail/<int:pk>/', BlogCrud.as_view()),
 ]
