@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
     
@@ -10,8 +11,9 @@ class Article(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name= 'Category')
-    
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name= 'Category', null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def __str__ (self):
         return self.title
     def get_absolute_url(self):
@@ -27,6 +29,7 @@ class Category(models.Model):
         return self.name
     def get_absolute_url(self):
         return reverse('category', kwargs={'cat_slug': self.slug})
+    
 
 
 

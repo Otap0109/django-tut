@@ -6,74 +6,35 @@ from django.views.generic import ListView, DetailView, CreateView
 import time
 from django.http import Http404, HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.views import APIView
+from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 from .serializers import ArticleSerializer
 
 from mainPage.forms import *
 from mainPage.models import *
+from mainPage.permissions import *
+
 # Create your views here.
 
-class BlogAPIList(generics.ListCreateAPIView):
-    queryset = Article.objects.all()
+
+class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
+    permission_classes = (IsAdminOrReadOnly, )
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        if not pk:
+            return Article.objects.all()
+        return Article.objects.filter(pk=pk)
 
-class BlogAPIUpdate(generics.UpdateAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
+    @action(methods=['get'], detail=True)
+    def category(self, request, pk=None):
+        cats = Category.objects.get(pk=pk)
+        return Response({'cats': [cats.name]})
 
-class BlogCrud(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-
-
-# class BlogApiView(APIView):
-#     def get(self, request):
-#         lst = Article.objects.all()
-#         return Response({'posts': ArticleSerializer(lst, many=True).data})
-#     def post(self, request):
-#         serializer = ArticleSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-
-#         serializer.save()
-#         return Response({'post':serializer.data})
-
-#     def put(self, request, *args, **kwargs):
-#         pk = kwargs.get("pk", None)
-#         if not pk :
-#             return Response({'error':"Method put not allowed"})
-#         try:
-#             instance = Article.objects.get(pk=pk)
-#         except:
-#             return Response({'error':'Object does not exist'})
-        
-#         serializer = ArticleSerializer(data=request.data, instance=instance)
-#         serializer.is_valid(raise_exception= True)
-#         serializer.save()
-#         return Response({'post': serializer.data})
-    
-
-#     def delete(self, request, *args, **kwargs):
-#         pk = kwargs.get('pk', None)
-#         if not pk:
-#             return Response({'error':'Method DELETE is not allowed'})\
-            
-#         try:
-#             instance = Article.objects.get(pk=pk)
-#         except:
-#             return Response({'error':'Object does not exist'})
-        
-        
-#         serializer = ArticleSerializer(data=request.data, instance=instance)
-#         serializer.is_valid(raise_exception= True)
-#         instance.delete()
-#         return Response({'post deleted': serializer.data})
-
-
-# class BlogApiView(generics.ListAPIView):
-#     queryset = Article.objects.all()
-#     serializer_class = ArticleSerializer
 
 
 
