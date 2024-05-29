@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.pagination import PageNumberPagination
 
 from .serializers import ArticleSerializer
 
@@ -19,11 +20,17 @@ from mainPage.models import *
 from mainPage.permissions import *
 
 # Create your views here.
+class ArticleAPIListPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+    
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     permission_classes = (IsAdminOrReadOnly, )
+    pagination_class = ArticleAPIListPagination
     def get_queryset(self):
         pk = self.kwargs.get('pk')
         if not pk:
