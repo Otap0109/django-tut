@@ -44,6 +44,23 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 
 
+class MainHome(APIView):
+    def get(self, request):
+        article = [{
+            "title": article.title,}
+            for article in Article.objects.all()
+        ]
+        return Response(article)
+
+
+
+
+
+
+
+
+
+
 
 # class MainHome(ListView):
 #     model = Article

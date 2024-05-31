@@ -11,11 +11,8 @@ router = routers.SimpleRouter()
 router.register(r'article', ArticleViewSet, basename = 'article')
 
 urlpatterns = [
-    # path('', MainHome.as_view(), name= 'home'),
-    # path('aboutus/', Aboutus, name= 'aboutus'),
-    # path('addArticle/', AddArticle.as_view(), name= 'addArticle'),
-    # # path('post/<slug:post_slug>/', ShowPost.as_view(), name ='post'),
-    # # path('category/<slug:cat_slug>/', ShowCategory.as_view(), name ='category'),
+    path('home/', MainHome.as_view(), name= 'home'),
+
     path('api/v1/sesauth/', include('rest_framework.urls')),
     path('api/v1/auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
