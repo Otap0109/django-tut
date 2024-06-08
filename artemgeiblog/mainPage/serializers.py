@@ -7,7 +7,17 @@ from .models import Article
 
 class ArticleSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    category_name = serializers.SerializerMethodField()
     class Meta:
         model = Article
-        fields = "__all__"
+        fields = ['title', 'description', 'image', 'user', 'category_name']
+        # fields = "__all__"
+    def to_representation(self, instance):
+        # Call the original `to_representation` method to get the field data
+        representation = super().to_representation(instance)
+        # Remove specific fields
+        representation.pop('user', None) # Remove 'slug' field
+        return representation
 
+    def get_category_name(self, obj):
+        return obj.cat.name if obj.cat else None

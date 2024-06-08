@@ -1,0 +1,13 @@
+.container{
+    .post{
+        width: 250px;
+        .post_list{
+            width: 50px;
+            background: red;
+            list-style: none;
+            .post_img{
+                width: 50px;
+            }
+        }
+    }
+}
