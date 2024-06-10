@@ -1,13 +1,21 @@
 .container{
+    .post_title{
+        list-style: none;
+    }
     .post{
-        width: 250px;
+        display: flex;
+        flex-direction:row;
+        border-bottom: 1px solid black;
         .post_list{
-            width: 50px;
-            background: red;
             list-style: none;
-            .post_img{
-                width: 50px;
-            }
+            display: flex;
+
+        }
+        .post_img{
+            max-height: 170px;
+            width: 250px;
+            margin: 20px;
+            
         }
     }
 }

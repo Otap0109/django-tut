@@ -42,24 +42,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
         return Response({'cats': [cats.name]})
 
 
-
-
-class MainHome(APIView):
-    def get(self, request):
-        article = [{
-            "title": article.title,}
-            for article in Article.objects.all()
-        ]
-        return Response(article)
-
-
-
-
-
-
-
-
-
+def PageNotFound(request, exception):
+    return HttpResponseNotFound('<h1>Page not found<h1/>')
 
 
 # class MainHome(ListView):
@@ -147,5 +131,3 @@ class MainHome(APIView):
 
 
 
-def PageNotFound(request, exception):
-    return HttpResponseNotFound('<h1>Page not found<h1/>')

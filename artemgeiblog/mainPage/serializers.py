@@ -10,14 +10,18 @@ class ArticleSerializer(serializers.ModelSerializer):
     category_name = serializers.SerializerMethodField()
     class Meta:
         model = Article
-        fields = ['title', 'description', 'image', 'user', 'category_name']
-        # fields = "__all__"
-    def to_representation(self, instance):
-        # Call the original `to_representation` method to get the field data
-        representation = super().to_representation(instance)
-        # Remove specific fields
-        representation.pop('user', None) # Remove 'slug' field
-        return representation
+        fields = "__all__"
+
 
     def get_category_name(self, obj):
         return obj.cat.name if obj.cat else None
+
+
+
+        # fields = ['title', 'description', 'image', 'user', 'category_name']     
+    #   def to_representation(self, instance):
+    #     # Call the original `to_representation` method to get the field data
+    #     representation = super().to_representation(instance)
+    #     # Remove specific fields
+    #     representation.pop('user', None) # Remove 'slug' field
+    #     return representation
