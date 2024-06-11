@@ -12,6 +12,7 @@ router.register(r'article', ArticleViewSet, basename = 'article')
 
 urlpatterns = [
     path('home/', ArticleViewSet.as_view({'get': 'list'}), name= 'home'),
+    path('cats/', CategoryViewSet.as_view({'get': 'list'}), name = 'cats'),
 
     path('api/v1/sesauth/', include('rest_framework.urls')),
     path('api/v1/auth/', include('djoser.urls')),

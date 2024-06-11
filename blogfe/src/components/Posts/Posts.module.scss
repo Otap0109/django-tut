@@ -1,21 +1,26 @@
 .container{
     .post_title{
         list-style: none;
+        border-bottom: 1px solid black;
+        .cat_name{
+            text-align: center;
+            padding: 2px;
+            background-color: rgb(253, 95, 95);
+            max-width: 50px;
+            border-radius: 20px;
+        }
     }
     .post{
         display: flex;
         flex-direction:row;
-        border-bottom: 1px solid black;
         .post_list{
             list-style: none;
             display: flex;
-
         }
         .post_img{
             max-height: 170px;
             width: 250px;
             margin: 20px;
-            
         }
     }
 }

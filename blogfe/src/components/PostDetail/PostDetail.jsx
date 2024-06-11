@@ -5,8 +5,8 @@ import axios from "axios";
 import styles from "./PostDetail.module.scss";
 
 // Function to fetch a single post by slug
-async function fetchPostBySlug(slug) {
-    const response = await axios.get(`http://127.0.0.1:8000/api/v1/article/{id}/`);
+async function fetchPostBySlug(id) {
+    const response = await axios.get(`http://127.0.0.1:8000/api/v1/article/${id}/`);
     console.log("API Response for slug: ", response.data);
     return response.data;
 }

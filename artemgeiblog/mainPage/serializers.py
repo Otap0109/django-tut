@@ -2,7 +2,7 @@ import django.db.models.deletion
 from rest_framework import serializers
 from rest_framework.renderers import JSONRenderer
 
-from .models import Article
+from .models import *
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -16,6 +16,10 @@ class ArticleSerializer(serializers.ModelSerializer):
     def get_category_name(self, obj):
         return obj.cat.name if obj.cat else None
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = "__all__"
 
 
         # fields = ['title', 'description', 'image', 'user', 'category_name']     
