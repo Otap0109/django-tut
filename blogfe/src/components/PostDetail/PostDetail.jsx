@@ -1,8 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import styles from "./PostDetail.module.scss";
+import Nav from "../Nav/Nav";
 
 // Function to fetch a single post by slug
 async function fetchPostBySlug(id) {
@@ -33,11 +35,14 @@ export default function PostDetail() {
 
     return (
         <div className={styles.container}>
-            <h1>{data.title}</h1>
-            <p>{data.category_name}</p>
-            <img src={data.image} alt="article" className={styles.post_img} />
-            <p>{data.description}</p>
-            <p>Last updated: {data.time_update}</p>
+            <Nav/>
+            <div className={styles.post}>
+                <h1>{data.title}</h1>
+                <p className={styles.cat_name}>{data.category_name}</p>
+                <img src={data.image} alt="article" className={styles.post_img} />
+                <p>{data.description}</p>
+                <p>Last updated: {data.time_update}</p>
+            </div>
         </div>
     );
 }

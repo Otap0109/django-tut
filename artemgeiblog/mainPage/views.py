@@ -28,7 +28,7 @@ class ArticleAPIListPagination(PageNumberPagination):
 
 class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
-    permission_classes = (IsAdminOrReadOnly, )
+    # permission_classes = (IsAdminOrReadOnly, )
     pagination_class = ArticleAPIListPagination
     def get_queryset(self):
         pk = self.kwargs.get('pk')

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./Posts.module.scss";
-import Menu from "../Menu/Menu";
+import Nav from "../Nav/Nav";
 
 // Function to fetch posts from the API
 async function fetchPosts() {
@@ -34,7 +34,7 @@ export default function Posts() {
 
   return (
     <div className={styles.container}>
-      <Menu/> 
+      <Nav/> 
       <h1>Posts</h1>
       <ul>
         {articles.map((article, id) => {
@@ -51,7 +51,7 @@ export default function Posts() {
                     className={styles.post_img}
                   />
                   <p>
-                    {article.description.slice(0, 500)}
+                    {article.description.slice(0, 500)} ... 
                     {/* Link to the full content page */}
                     <Link to={`/post/${article.id}`}>Read more</Link>
                   </p>

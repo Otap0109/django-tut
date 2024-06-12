@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .post {
+    margin: 20px 300px;
+    .cat_name {
+      text-align: center;
+      padding: 2px;
+      background-color: rgb(253, 95, 95);
+      max-width: 50px;
+      border-radius: 20px;
+    }
+
+    .post_img {
+      width: 400px;
+      float: left;
+      margin: 5px;
+    }
+  }
+}

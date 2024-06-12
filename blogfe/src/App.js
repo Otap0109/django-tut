@@ -1,12 +1,14 @@
 import React from "react";
 import Posts from "./components/Posts/Posts";
+import PostDetail from './components/PostDetail/PostDetail';
+import Add from "./components/Add/Add";
 import { QueryClient, QueryClientProvider, } from '@tanstack/react-query'
-// import Router from "./Router";
+
 
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import PostDetail from '../src/components/PostDetail/PostDetail';
+
 
 
 
@@ -17,8 +19,9 @@ function App(){
       <QueryClientProvider client={queryClient}>
         <Router>
             <Routes>
-                <Route path="/" element={<Posts />} />
+                <Route path="/home/" element={<Posts />} />
                 <Route path="/post/:id/" element={<PostDetail />} />
+                <Route path="/addArticle/" element={<Add />} />
             </Routes>
         </Router>
       </QueryClientProvider>

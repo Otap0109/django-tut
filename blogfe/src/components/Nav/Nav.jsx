@@ -1,6 +1,9 @@
 import React from 'react'
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import styles from './Nav.module.scss'
+import ProfileBtn from '../ProfileBtn/ProfileBtn';
 
 
 async function fetchCats() {
@@ -34,12 +37,14 @@ export default function Menu(){
     const cats = data.results ? data.results : data;
 
     return(
-        <div>
-            {cats.map((cat, id, data) =>{
+        <nav className={styles.menu}>
+            <Link to={`/home/`} className={styles.nav_btn}>Home</Link>
+            {cats.map((cat, id) =>{
             return(
-                <p key={id}>{cat.name}</p>
+                <p className={styles.nav_btn} key={id}>{cat.name}</p>
             );
             })}
-        </div>
+            <ProfileBtn className={styles.nav_btn}/>
+        </nav>
     )
 }
