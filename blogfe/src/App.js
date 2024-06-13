@@ -4,14 +4,7 @@ import PostDetail from './components/PostDetail/PostDetail';
 import Add from "./components/Add/Add";
 import { QueryClient, QueryClientProvider, } from '@tanstack/react-query'
 
-
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
-
-
-
-
  const queryClient = new QueryClient();
 
 function App(){
@@ -19,7 +12,7 @@ function App(){
       <QueryClientProvider client={queryClient}>
         <Router>
             <Routes>
-                <Route path="/home/" element={<Posts />} />
+                <Route path="/" element={<Posts />} />
                 <Route path="/post/:id/" element={<PostDetail />} />
                 <Route path="/addArticle/" element={<Add />} />
             </Routes>

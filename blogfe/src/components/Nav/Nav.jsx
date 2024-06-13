@@ -38,7 +38,7 @@ export default function Menu(){
 
     return(
         <nav className={styles.menu}>
-            <Link to={`/home/`} className={styles.nav_btn}>Home</Link>
+            <Link to={`/`} className={styles.nav_btn}>Home</Link>
             {cats.map((cat, id) =>{
             return(
                 <p className={styles.nav_btn} key={id}>{cat.name}</p>
