@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./Posts.module.scss";
-import Nav from "../Nav/Nav";
 
 // Function to fetch posts from the API
 async function fetchPosts() {
@@ -12,7 +11,7 @@ async function fetchPosts() {
 }
 
 // Component to display the posts
-export default function Posts() {
+export default function Posts({ selectedCat }) {
   const { data, error, isError, isLoading } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
@@ -32,12 +31,15 @@ export default function Posts() {
     return <div>Error: Unexpected response format</div>;
   }
 
+  const filteredArticles = selectedCat
+    ? articles.filter((article) => article.category_name === selectedCat)
+    : articles;
+
   return (
     <div className={styles.container}>
-      <Nav/> 
       <h1>Posts</h1>
       <ul>
-        {articles.map((article, id) => {
+        {filteredArticles.map((article, id) => {
           return (
             <li key={id} className={styles.post_title}>
               <h2>{article.title}</h2>
@@ -51,7 +53,7 @@ export default function Posts() {
                     className={styles.post_img}
                   />
                   <p>
-                    {article.description.slice(0, 500)} ... 
+                    {article.description.slice(0, 500)} ...
                     {/* Link to the full content page */}
                     <Link to={`/post/${article.id}`}>Read more</Link>
                   </p>

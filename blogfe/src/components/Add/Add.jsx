@@ -3,7 +3,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Add.module.scss";
-import Nav from "../Nav/Nav";
+import Button from "@mui/material/Button";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { styled } from "@mui/material/styles";
 
 // Function to fetch categories
 const fetchCategories = async () => {
@@ -25,6 +27,18 @@ export default function Add() {
   const [image, setImage] = useState(null);
   const [cat, setCat] = useState(""); // State to hold selected category
   const [categories, setCategories] = useState([]); // State to hold list of categories
+
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
 
   const queryClient = useQueryClient();
 
@@ -79,78 +93,84 @@ export default function Add() {
 
   return (
     <div className={styles.container}>
-      <Nav />
       <div className={styles.wrapper}>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <h2>Add a New Article</h2>
-        {mutation.isLoading && <div>Loading...</div>}
-        {mutation.isError && <div>Error: {mutation.error.message}</div>}
-        {mutation.isSuccess && <div>Article added successfully!</div>}
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <h2>Add a New Article</h2>
+          {mutation.isLoading && <div>Loading...</div>}
+          {mutation.isError && <div>Error: {mutation.error.message}</div>}
+          {mutation.isSuccess && <div>Article added successfully!</div>}
 
-        <div >
-          
-          <input className={styles.text_field}
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            placeholder="Title"
-          />
-        </div>
+          <div>
+            <input
+              className={styles.text_field}
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              placeholder="Title"
+            />
+          </div>
 
-        <div >
-          <input className={styles.text_field}
-            type="slug"
-            id="slug"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-            required
-            placeholder="URL"
-          />
-        </div>
+          <div>
+            <input
+              className={styles.text_field}
+              type="slug"
+              id="slug"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+              required
+              placeholder="URL"
+            />
+          </div>
 
-        <div >
-          <textarea 
-            className={styles.content_field}
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            placeholder="Article content"
-          />
-        </div>
+          <div>
+            <textarea
+              className={styles.content_field}
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+              placeholder="Article content"
+            />
+          </div>
 
-        <div className={styles.field}>
-          <label htmlFor="image">Image</label>
-          <input
-            type="file"
-            id="image"
-            accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-        </div>
-
-        <div >
-          <select
-            id="cat"
-            value={cat}
-            onChange={(e) => setCat(e.target.value)}
-            required
+          <Button
+            component="label"
+            role={undefined}
+            variant="contained"
+            tabIndex={-1}
+            startIcon={<CloudUploadIcon />}
           >
-            <option value="">Select a category...</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
+            Upload image
+            <VisuallyHiddenInput
+              type="file"
+              id="image"
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </Button>
 
-        <button type="submit" disabled={mutation.isLoading}>
-          Add Article
-        </button>
-      </form>
+          <div>
+            <select
+              id="cat"
+              value={cat}
+              onChange={(e) => setCat(e.target.value)}
+              required
+            >
+              <option value="">Select a category...</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button type="submit" disabled={mutation.isLoading}>
+            Add Article
+          </button>
+        </form>
       </div>
     </div>
   );
